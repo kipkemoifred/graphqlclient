@@ -4,10 +4,45 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+
+
+const client = new ApolloClient({
+  uri: 'http://localhost:3001/graphql',//https://flyby-gateway.herokuapp.com/
+  cache: new InMemoryCache(),
+});
+
+client
+  .query({
+    query: gql`
+      #query GetLocations {
+       # locations {
+        #  id
+         # name
+          #description
+          #photo
+        #}
+
+        query {
+        getAllUsers{
+  
+        name
+        age
+        
+        }
+        }
+      #}
+    `,
+  })
+  .then((result) => console.log(result));
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+     <ApolloProvider client={client}>
+     <App />
+     </ApolloProvider>
+    
   </React.StrictMode>
 );
 
